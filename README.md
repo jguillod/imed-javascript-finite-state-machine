@@ -8,7 +8,7 @@ This library is very easy to use. Actually! So, dont be afraid in front of some 
 
 #### Installation ####
 
-	npm install imed-javascript-finite-state-machine --save
+	npm install @imed.ch/javascript-finite-state-machine --save
 
 This installation process will install the `imed-javascript-finite-state-machine` module and&nbsp;:
 
