@@ -20,6 +20,7 @@
 		"uglifyjs": "^2.4.11"
 	},
 	"scripts": {
+		"postinstall": "npm run generate-docs",
 		"minify-debug": "uglifyjs src/fsm.js --mangle --define DEBUG=true --comments --compress -o build/fsm-debug.min.js",
 		"minify": "uglifyjs src/fsm.js --mangle --define DEBUG=false --comments --compress -o build/fsm.min.js && npm run minify-debug",
 		"build": "npm run minify && npm test && npm run generate-docs && echo 'Is it time to checkout to GitHub?'",
