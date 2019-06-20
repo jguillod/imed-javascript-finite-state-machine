@@ -10,7 +10,7 @@ This library is very easy to use. Actually! So, dont be afraid in front of some 
 
 	npm install @imed.ch/javascript-finite-state-machine --save
 
-This installation process will install the `imed-javascript-finite-state-machine` module and&nbsp;:
+This installation process will install the finite state machine module and&nbsp;:
 
 - create a `build/` directory with library minification;
 - create a `docs/` directory;
@@ -26,14 +26,14 @@ Try the direct link [FSM API](FSM.html).
 
 To display on OSX run&nbsp;:
 
-	node node_modules/imed-javascript-finite-state-machine/docs/index
+	node node_modules/@imed.ch/javascript-finite-state-machine/docs/index
 
 or&nbsp;:
 
-	cd path/to/imed-javascript-finite-state-machine
+	cd path/to/@imed.ch/javascript-finite-state-machine
 	npm run show-docs
 
-or on other OS you can just open `./docs/imed-javascript-finite-state-machine/<version>/index.html` file (replace `<version>` with actual version, e.g. `1.0.0`).
+or on other OS you can just open `./docs/@imed.ch/javascript-finite-state-machine/<version>/index.html` file (replace `<version>` with actual version, e.g. `1.0.0`).
 
 #### Example of a machine ####
 
@@ -43,7 +43,7 @@ In a bash Terminal launch NodeJS, e.g.&nbsp;:
 
 then run the following code&nbsp;:
 
-	var FSM = require('./build/fsm.min.js');
+	var FSM = require('@imed.ch/javascript-finite-state-machine');
 	var configs = {
 		"_": {
 			"version": "1.0.0",
@@ -220,9 +220,9 @@ The justification for this implementation choice of only *synchronous transition
 
 - In NodeJS&nbsp;:
 
-		var FSM = require('./build/fsm.min.js');
-		var machine = new FSM(require('./demo/fsm-definition.js'), function(fsm){
-			console.log('Machine ready', fsm);
+		var FSM = require('@imed.ch/javascript-finite-state-machine');
+		var machine = new FSM(require('@imed.ch/javascript-finite-state-machine/demo/fsm-definition.js'), function(fsm){
+			console.log(fsm, 'Machine ready');
 			console.log('Available events :', fsm.availEvents());
 		});
 		
