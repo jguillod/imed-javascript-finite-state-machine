@@ -1,0 +1,235 @@
+<!DOCTYPE html> 
+<html>
+<head>
+  <title>iMed Javascript Finite State Machine | iMed.ch 🎬 🎯</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/> 
+	<link rel="stylesheet" href="demo.css" type="text/css" media="screen, print">
+	<style>
+		#main {
+			float:right;
+			width:50%;
+/*			border:solid red 2px;*/
+/*			padding:15px;*/
+		}
+		#main div.controls{
+			background-color: lightblue;
+			margin:5px;
+			padding:5px;
+			border-radius: 8px
+		}
+		#history div{
+		 border: 1px solid #d2d2d2;
+		 display: inline-block;
+		 padding-right: 10px;
+		 margin:1px;
+		 vertical-align: top;
+		}
+		#history div:nth-child(2n){
+ 		 background-color: #d2d2d2;			
+		}
+		#history p{
+			-webkit-margin-before: 0;
+			-webkit-margin-after: 0;
+			font-size:small;
+		}
+		</style>
+		<!-- rotating icons oo -->
+		<style>
+		#status-icon{
+			display: inline-block;
+			vertical-align: middle;
+			background-size: 100%;
+			background-repeat: no-repeat;
+		}
+		#status-icon .is-rotating {
+/*		    position: absolute;*/
+		    top: 0;
+		    bottom: 0;
+		    right: 0;
+		    left: 0;
+		    margin: auto;
+		    width: 1.3em;
+		    height: 1.1em
+		}
+
+		#status-icon .circle {
+		    border-color: #fff
+		}
+		#status-icon .circle {
+		    width: 8px;
+		    height: 8px
+		}
+		
+		#status-icon.stopped{
+			display:none;
+			color:white;
+		}
+		.is-rotating{
+			color: #beab04;
+			width: 17px;
+			height: 19px;
+			line-height: .9;
+			text-align: center;
+			-webkit-transform-origin: center center;
+			-ms-transform-origin: center center;
+			transform-origin: center center;
+			will-change: transform;
+			-webkit-animation: rotation 3s infinite ease;
+			animation: rotation 3s infinite ease
+		}
+		
+		#status-icon .is-rotating .circle{
+			display: inline-block;
+			vertical-align: middle;
+			width: 5px;
+			height: 5px;
+			border: 1px solid #f34244;
+			border-radius: 50%;
+			-webkit-transform-origin: center center;
+			-ms-transform-origin: center center;
+			transform-origin: center center;
+		}
+		
+		@-webkit-keyframes rotation {
+		    0% {
+		        -webkit-transform: rotateZ(0deg);
+		        transform: rotateZ(0deg)
+		    }
+
+		    45%, 55% {
+		        -webkit-transform: rotateZ(180deg);
+		        transform: rotateZ(180deg)
+		    }
+
+		    100% {
+		        -webkit-transform: rotateZ(360deg);
+		        transform: rotateZ(360deg)
+		    }
+		}
+
+		@keyframes rotation {
+		    0% {
+		        -webkit-transform: rotateZ(0deg);
+		        transform: rotateZ(0deg)
+		    }
+
+		    45%, 55% {
+		        -webkit-transform: rotateZ(180deg);
+		        transform: rotateZ(180deg)
+		    }
+
+		    100% {
+		        -webkit-transform: rotateZ(360deg);
+		        transform: rotateZ(360deg)
+		    }
+		}
+
+		
+	</style>
+</head> 
+ 
+<body> 			
+			
+  <div id="demo" class='green'>
+
+    <h1>JFG's Javascript Finite State Machine | LAST VERSION June 2019 🎬 🎯</h1>
+	<p><em>Have a look at the dev console to trace the events ! …</em></p>
+		<div id="main">
+			<div class="controls">
+					<span>State&nbsp;: <strong id="state-name">state name here</strong> <select id="actions"></select></span><hr />
+				<strong>Click a Button to Trigger next Event:</strong><br />
+		    <div id="controls">
+					<div id="status-icon">
+						<div class="is-rotating">
+							<span class="circle"></span>
+							<span class="circle"></span>
+						</div>
+					</div>
+		      <!-- <button id="start" onclick="Demo.fsm.e.start();Demo.guiUpdate();">start</button>
+		      <button id="clear" onclick="Demo.fsm.e.clear();Demo.guiUpdate();">clear</button>
+		      <button id="calm"  onclick="Demo.fsm.e.calm();Demo.guiUpdate();">calm</button>
+		      <button id="warn"  onclick="Demo.fsm.e.warn();Demo.guiUpdate();">warn</button>
+		      <button id="panic" onclick="Demo.fsm.e.panic();Demo.guiUpdate();">panic!</button> -->
+		    </div>
+				<label><input id="allow-clear-on-yellow-state" type="checkbox" />Allow 'Clear' event when 'yellow' state</label><br />
+				<label><input id="allow-panic-on-red-state" type="checkbox" checked />Allow 'Panic' event when 'red' state</label><br />
+			</div>
+	    <textarea id="output" style="width:100%"></textarea>
+			<label><input id="do-debug" type="checkbox" checked />Debug (see console logs)</label><br />
+		</div>
+
+    <div id="diagram">
+    </div>
+		
+		<div id="svg-diagram">
+			<svg width="400" height="300" viewBox="180 70 500 400" version="1.1" xmlns="http://www.w3.org/2000/svg">
+				<g id="green-state" stroke="gray" opacity="0.5">
+					<ellipse stroke="green" fill="green" fill-opacity="0.2" stroke-width="4" fill="none" cx="214.5" cy="161.5" rx="30" ry="30"/>
+					<text x="192.5" y="167.5" font-family="Times New Roman" font-size="20">green</text>
+				</g>
+				<g id="red-state" stroke="gray" opacity="0.5">
+					<ellipse stroke="red" stroke-width="4" fill="red" fill-opacity="0.2" cx="581.5" cy="154.5" rx="30" ry="30"/>
+					<text x="568.5" y="160.5" font-family="Times New Roman" font-size="20">red</text>
+				</g>
+				<g id="yellow-state" stroke="gray" opacity="0.5">
+					<ellipse stroke="yellow" stroke-width="4" fill="yellow" fill-opacity="0.5" cx="377.5" cy="433.5" rx="30" ry="30"/>
+					<text x="350.5" y="439.5" font-family="Times New Roman" font-size="20">yellow</text>
+				</g>
+				
+				<g id="panic-event-from-red-state" stroke="gray" opacity="0.5">
+					<path stroke-width="2" fill="none" d="M 587.501,125.226 A 22.5,22.5 0 1 1 608.386,141.456"/>
+					<polygon fill="black" stroke-width="2" points="608.386,141.456 617.461,144.034 614.68,134.428"/>
+					<text x="627.5" y="92.5" font-family="Times New Roman" font-size="20">panic</text>
+				</g>
+				
+				<g id="panic-event-from-green-state" stroke="gray" opacity="0.5">
+					<path stroke-width="2" fill="none" d="M 241.674,148.804 A 418.646,418.646 0 0 1 553.861,142.85"/>
+					<polygon fill="black" stroke-width="2" points="553.861,142.85 548.159,135.335 544.607,144.683"/>
+					<text x="375.5" y="106.5" font-family="Times New Roman" font-size="20">panic</text>
+				</g>
+				<g id="clear-event-from-red-state" stroke="gray" opacity="0.5">
+					<path stroke-width="2" fill="none" d="M 553.878,166.192 A 455.972,455.972 0 0 1 242.548,172.131"/>
+					<polygon fill="black" stroke-width="2" points="242.548,172.131 248.5,179.449 251.735,169.987"/>
+					<text x="379.5" y="218.5" font-family="Times New Roman" font-size="20">clear</text>
+				</g>
+				<g id="warn-event-from-green-state" stroke="gray" opacity="0.5">
+					<path stroke-width="2" fill="none" d="M 350.572,420.31 A 268.647,268.647 0 0 1 213.434,191.465"/>
+					<polygon fill="black" stroke-width="2" points="350.572,420.31 346.042,412.035 341.149,420.756"/>
+					<text x="205.5" y="342.5" font-family="Times New Roman" font-size="20">warn</text>
+				</g>
+				
+				<g id="clear-event-from-yellow-state" stroke="gray" opacity="0.5">
+					<path stroke-width="2" fill="none" d="M 239.711,177.742 A 328.121,328.121 0 0 1 375.065,403.609"/>
+					<polygon fill="black" stroke-width="2" points="239.711,177.742 243.334,186.452 249.128,178.302"/>
+					<text x="337.5" y="269.5" font-family="Times New Roman" font-size="20">clear</text>
+				</g>
+				
+				<g id="panic-event-from-yellow-state" stroke="gray" opacity="0.5">
+					<path stroke-width="2" fill="none" d="M 583.762,184.396 A 248.988,248.988 0 0 1 406.675,426.59"/>
+					<polygon fill="black" stroke-width="2" points="583.762,184.396 578.885,192.472 588.884,192.319"/>
+					<text x="541.5" y="355.5" font-family="Times New Roman" font-size="20">panic</text>
+				</g>
+				
+				<g id="calm-event-from-red-state" stroke="gray" opacity="0.5">
+					<path stroke-width="2" fill="none" d="M 385.001,404.459 A 430.116,430.116 0 0 1 556.101,170.454"/>
+					<polygon fill="black" stroke-width="2" points="385.001,404.459 392.065,398.206 382.476,395.369"/>
+					<text x="405.5" y="264.5" font-family="Times New Roman" font-size="20">calm</text>
+				</g>
+			</svg>
+			
+		</div>
+		</div>
+  </div>
+	
+	<h2>History <small>of Transitions</small></h2>
+	<div id="history">
+	</div>
+
+<script type="text/javascript">
+	var DEBUG=true;
+</script>
+  <script src="../build/fsm-debug.min.js"></script>
+  <script src="example-1.js"></script>
+
+</body> 
+</html>

@@ -1,0 +1,33 @@
+{
+	"name": "@imed.ch/javascript-finite-state-machine",
+	"description": "A simple finite state machine library",
+	"homepage": "https://github.com/jguillod/imed-javascript-finite-state-machine",
+	"keywords": [
+		"state machine",
+		"server",
+		"client"
+	],
+	"author": "Joel F Guillod - joel.guillod@gmail.com",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/jguillod/imed-javascript-finite-state-machine.git"
+	},
+	"main": "src/fsm.js",
+	"devDependencies": {
+		"chai": "*",
+		"minami": "^1.2.3",
+		"mocha": "*",
+		"uglifyjs": "^2.4.11"
+	},
+	"scripts": {
+		"minify-debug": "uglifyjs src/fsm.js --mangle --define DEBUG=true --comments --compress -o build/fsm-debug.min.js",
+		"minify": "uglifyjs src/fsm.js --mangle --define DEBUG=false --comments --compress -o build/fsm.min.js && npm run minify-debug",
+		"build": "npm run minify && npm test && npm run generate-docs && echo 'Is it time to checkout to GitHub?'",
+		"docs": "npm run generate-docs && npm run show-docs",
+		"generate-docs": "jsdoc --configure jsdoc.json --verbose",
+		"show-docs": "node docs/index",
+		"test": "mocha --timeout 3000"
+	},
+	"version": "1.0.0",
+	"license": "MIT"
+}
