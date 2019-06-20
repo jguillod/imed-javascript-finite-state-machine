@@ -31,7 +31,7 @@
 		"show-docs": "node docs/index",
 		"test": "npm run minify && mocha --timeout 3000"
 	},
-	"version": "1.0.6",
+	"version": "1.0.7",
 	"license": "MIT",
 	"dependencies": {}
 }
