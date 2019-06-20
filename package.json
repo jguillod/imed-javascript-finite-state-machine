@@ -29,6 +29,6 @@
 		"show-docs": "node docs/index",
 		"test": "mocha --timeout 3000"
 	},
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"license": "MIT"
 }
