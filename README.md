@@ -155,13 +155,13 @@ which means an object O in a state S under the dispatched of an event E should p
 
 A **Transition** is formalised as&nbsp;:
 
-	event(arguments) [guard] / do:function(event, arg...);dont:function(event, arg...)
+	event(arguments) [guard] / do:function(event, ...arg);dont:function(event, ...args)
 
 ## States ##
 
 A **State** is formalised as&nbsp;:
 
-	state / exit:function(event, arg...);enter:function(event, arg...);actions:function...
+	state / exit:function(event, ...arg); enter:function(event, ...arg); actions:function...
 	
 **entry** and **exit** actions provide means for guaranteed initialization and cleanup. **actions** are the actions available (allowed to run) in the corresponding state.
 
@@ -191,7 +191,7 @@ So, an action in the "saving" state can run the async request and lock any trans
 
 > **In summary&nbsp;: run any async process in actions state but not in transitions functions nor in machine listeners**.
 
-See also [6. Security : Locking Transitions](6_Security___Locking_Transitions) to learn how you can lock the machine so your code can keep the saving process under control. Something like&nbsp;:
+See also [6. Security : Locking Transitions](#6_Security___Locking_Transitions) to learn how you can lock the machine so your code can keep the saving process under control. Something like&nbsp;:
 
 	lock(key)
 	State("dirty") x Event("save")
@@ -251,12 +251,12 @@ The normal workflow to set up and run a FSM is&nbsp;:
 	
 2. Optionally, [register some listeners](#register-listeners) (see also [FSM#on](FSM.html#on)). We will call the registered listeners **MACHINE LISTENERS**&nbsp;:
 
-		fsm.on(machineEvent, [scope,] listener, options...);
+		fsm.on(machineEvent, [scope,] listener, ...options);
 		// unregister with: fsm.un(machineEvent, [scope,] listener);
 
 3. [Trigger an available event to execute a transition](#trigger-transition) (see also [API docs FSM#trigger](FSM.html#trigger))&nbsp;:
 
-		var res = fsm.trigger(triggerEvent, args...);
+		var res = fsm.trigger(triggerEvent, ...args);
 
 4. [Deal with results when appropriate](#deal-with-result)&nbsp;:
 
@@ -268,7 +268,7 @@ The normal workflow to set up and run a FSM is&nbsp;:
 5. [Enjoy the machine](#enjoy)&nbsp;:
 
 		updateControls( fsm.availEvents() );
-		fsm.actions.currentStateAction1(args...);
+		fsm.actions.currentStateAction1(...args);
 
 6. [Security : Locking Transitions](#security).
 
@@ -303,8 +303,8 @@ The following properties of the `configs` object apply&nbsp;:
 Any other `configs` properties are either state or event definition. The name the properties is the event or state identifier&nbsp;:
 
 * *`"state" `*: the property name is the identifier of a state (its name). It is any other `configs` property containing one or more of&nbsp;:
-	- `entry` : the entry `function(eventObj, arg...)` or array of.
-	- `exit` : the exit `function(eventObj, arg...)` or array of.  
+	- `entry` : the entry `function(eventObj, ...arg)` or array of.
+	- `exit` : the exit `function(eventObj, ...arg)` or array of.  
 	- `actions` : an object containing the actions for this state. Properties are name of the action and its value is a Function (signatures are up to you)&nbsp;:
 	
 			actions:{
@@ -316,13 +316,13 @@ Any other `configs` properties are either state or event definition. The name th
 
 	- `from` : is the mandatory source state name (String), i.e. the one which will exit on successfully completed transition.
 	- `to` : is the target state name (String), i.e. the one which will enter and be the new current state on successfully completed transition. Omit this property (`undefined`) if the transition is an *internal transition*.
-	- `before` : `function(eventObj, arg...)` to be executed before the transition. If one does not return `true` the transition is cancelled.
-	- `after` : `function(eventObj, arg...)` executed at the end of the trigger (even if guard failed or error occurred).
-	- `guard` : `function(eventObj, arg...)` if one does not return true, the transition does not occur.
-	- `do` : `function(eventObj, arg...)` executed after guard succeed (returns `true`).
-	- `dont` : `function(eventObj, arg...)` executed after guard does not return `true`.
+	- `before` : `function(eventObj, ...arg)` to be executed before the transition. If one does not return `true` the transition is cancelled.
+	- `after` : `function(eventObj, ...args)` executed at the end of the trigger (even if guard failed or error occurred).
+	- `guard` : `function(eventObj, ...args)` if one does not return true, the transition does not occur.
+	- `do` : `function(eventObj, ...args)` executed after guard succeed (returns `true`).
+	- `dont` : `function(eventObj, ...args)` executed after guard does not return `true`.
 	
-	See [Machine and Configs Listener](FSM.html#~listener) for a description of the `function(eventObj, arg...)` and its arguments.
+	See [Machine and Configs Listener](FSM.html#~listener) for a description of the `function(eventObj, ...args)` and its arguments.
 
 ## callback ##
 
@@ -353,9 +353,9 @@ DO NOT confuse the events <b>dispatched to</b> the machine by [FSM#trigger](FSM.
 
 	To tell the machine a trigger event in order to execute a state transition, run one of&nbsp;:
 
-		fsm.trigger(triggerEvent, args...);  // to tell the machine which transition to do
-		fsm.t(triggerEvent, args...);        // to tell the machine which transition to do
-		fsm.e[triggerEvent](args...);        // to tell the machine which transition to do, e.g. fsm.e.stop(args)
+		fsm.trigger(triggerEvent, ...args);  // to tell the machine which transition to do
+		fsm.t(triggerEvent, ...args);        // to tell the machine which transition to do
+		fsm.e[triggerEvent](...args);        // to tell the machine which transition to do, e.g. fsm.e.stop(args)
 
 	The set of available trigger events is defined in the `configs` option on creating a new machine (see [FSM](FSM.html)). Each trigger event corresponds to one or more transitions.
 
@@ -369,7 +369,7 @@ DO NOT confuse the events <b>dispatched to</b> the machine by [FSM#trigger](FSM.
 
 To register a listener for Machine Events. Arguments are&nbsp;:
 
-	fsm.on(eventPattern, [scope,] listener, options...){/*...*/}  // to listen to the machine own events
+	fsm.on(eventPattern, [scope,] listener, ...options){/*...*/}  // to listen to the machine own events
 
 - `eventPattern` : which is either a `string` equals to the [Machine Event Identifiers](#mei), or a `RegExp` to test with the Machine Event Identifier.
 
@@ -425,7 +425,7 @@ So, a fsm publishes its machine events that listeners can register to (with `fsm
 
 Given a transition defined as&nbsp;:
 
-	// panic(arguments) [guard] / do:function(event, arg...);dont:function(event, arg...)
+	// panic(arguments) [guard] / do:function(event, ...args);dont:function(event, ...args)
 	
 	panic : [{
 		from  : 'green',
@@ -467,12 +467,12 @@ will be invoked for any transition which target state is `red` and for `entry-re
 
 Your machine listeners and the configs listeners signatures are the same&nbsp;:
 
-		function listener(eventObj, args...)
+		function listener(eventObj, ...args)
 
 where 
 
-- 	`args...`
-	are the arguments as passed by the `fsm.trigger(triggerEvent, args...)`.
+- 	`...args`
+	are the arguments as passed by the `fsm.trigger(triggerEvent, ...args)`.
 
 - 	`eventObj`
 	is a hash which properties set depends on the transition step, i.e. for&nbsp;:
@@ -509,7 +509,7 @@ where
 		- **`options`** is an Array containing arguments as given&nbsp;:
 		
 			- either for **config listeners** in the configs transition object (`options` are defined in the corresponding transition configuration but not in state configuration),
-			- or for **machine listeners** on registering them with `fsm.on(eventPattern, [scope,] listener, options...)`.
+			- or for **machine listeners** on registering them with `fsm.on(eventPattern, [scope,] listener, ...options)`.
 
 <hr class="bold" id="trigger-transition"/>
 
@@ -566,7 +566,7 @@ The `configs` to instanciate the machine contains the definition of transitions 
 
 So, each of these properties can be either `undefined`, a `function` or an `array` of functions. Every function shares the same signature as Machine Listeners, i.e.&nbsp;:
 
-	function(eventObj, args...);	
+	function(eventObj, ...args);	
 	
 <span id="transition-path"></span>
 
@@ -576,7 +576,7 @@ So, each of these properties can be either `undefined`, a `function` or an `arra
 
 (A) An event is triggered by&nbsp;:
 
-	fsm.trigger(triggerEvent, args...)
+	fsm.trigger(triggerEvent, ...args)
 
 (B) Then, the machine starts the **transition sequence** (before → ... → after).
 
@@ -664,7 +664,7 @@ To return a list of available events in the current state&nbsp;:
 
 To test if some transitions are allowed, run&nbsp;:
 
-	fsm.can(event [, testGuard [, param...]]) // return true|false
+	fsm.can(event [, testGuard [, ...params]]) // return true|false
 
 where&nbsp;:
 
@@ -748,8 +748,8 @@ Or more simply (and maybe to make sure that no other thread can trigger an event
 		fsm.trigger("reboot", lockKey);
 		
 **Notes :**
-- You can use `fsm.t(event, lockKey, args...)` or `fsm.e.<event>(lockKey, args...)` alias style.
-- After a call to `fsm.trigger(event, lockKey)` the fsm is kept locked.
+- You can use `fsm.t(event, lockKey, ...args)` or `fsm.e.<event>(lockKey, ...args)` alias style.
+- After a call to `fsm.trigger(event, lockKey, ...args)` the fsm is kept locked.
 
 Also, you can use your own `lockKey` to be shared by any objects of your code&nbsp;:
 
@@ -778,7 +778,7 @@ We expect version 2 with the following features&nbsp;:
 Please, request other features you are willing to get on next version.
 
 ---
-© [imed.ch](http://imed.ch) - Last modified Thu Jun 20 15:44:12 CEST 2019
+© [imed.ch](http://imed.ch) - Last modified Thu Jun 20 17:03:06 CEST 2019
 
 
 

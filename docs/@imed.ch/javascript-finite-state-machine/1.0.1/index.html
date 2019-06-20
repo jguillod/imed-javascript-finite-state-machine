@@ -51,12 +51,13 @@
     <section class="readme">
         <article><h1>FSM</h1><p>On <a href="https://github.com/jguillod/imed-javascript-finite-state-machine">https://github.com/jguillod/imed-javascript-finite-state-machine</a>.</p>
 <h3>Getting started</h3><p>This library is very easy to use. Actually! So, dont be afraid in front of some advanced features explained in detailed here.</p>
-<h4>Installation</h4><pre class="prettyprint source"><code>npm install imed-javascript-finite-state-machine --save</code></pre><p>This installation process will install the <code>imed-javascript-finite-state-machine</code> module and&nbsp;:</p>
+<h4>Installation</h4><pre class="prettyprint source"><code>npm install @imed.ch/javascript-finite-state-machine --save</code></pre><p>This installation process will install the <code>imed-javascript-finite-state-machine</code> module and&nbsp;:</p>
 <ul>
 <li>create a <code>build/</code> directory with library minification;</li>
 <li>create a <code>docs/</code> directory;</li>
 <li>run the tests.</li>
 </ul>
+<h4>Demo</h4><p>Just open (double-click) file <code>./demo/index.html</code> in your web browser.</p>
 <h4>API Documentation</h4><p>Try the direct link <a href="FSM.html">FSM API</a>.</p>
 <p>To display on OSX run&nbsp;:</p>
 <pre class="prettyprint source"><code>node node_modules/imed-javascript-finite-state-machine/docs/index</code></pre><p>or&nbsp;:</p>
@@ -154,8 +155,8 @@ console.log('Available events:', fsm.availEvents());
 <p>A FSM can be described as a set of relations of the form&nbsp;:</p>
 <pre class="prettyprint source"><code>Object(O) : State(S) x Event(E) → Transition (T), State(S')</code></pre><p>which means an object O in a state S under the dispatched of an event E should perform the Transition T to enter a new state S'.</p>
 <h2>Transitions</h2><p>A <strong>Transition</strong> is formalised as&nbsp;:</p>
-<pre class="prettyprint source"><code>event(arguments) [guard] / do:function(event, arg...);dont:function(event, arg...)</code></pre><h2>States</h2><p>A <strong>State</strong> is formalised as&nbsp;:</p>
-<pre class="prettyprint source"><code>state / exit:function(event, arg...);enter:function(event, arg...);actions:function...</code></pre><p><strong>entry</strong> and <strong>exit</strong> actions provide means for guaranteed initialization and cleanup. <strong>actions</strong> are the actions available (allowed to run) in the corresponding state.</p>
+<pre class="prettyprint source"><code>event(arguments) [guard] / do:function(event, ...arg);dont:function(event, ...args)</code></pre><h2>States</h2><p>A <strong>State</strong> is formalised as&nbsp;:</p>
+<pre class="prettyprint source"><code>state / exit:function(event, ...arg); enter:function(event, ...arg); actions:function...</code></pre><p><strong>entry</strong> and <strong>exit</strong> actions provide means for guaranteed initialization and cleanup. <strong>actions</strong> are the actions available (allowed to run) in the corresponding state.</p>
 <h2>No Asynchronous Transitions, please&nbsp;!</h2><p>In page 73 of <em>The Unified Modeling Language Reference Manual</em> (1999, Addison Wesley Longman, Inc), James Rumbaugh &amp; al wrote about transition action&nbsp;:</p>
 <blockquote>
 <p>«&nbsp;<em>Conceptually, its duration is negligible compared to outside event timing; therefore, a second event cannot occur during its execution. In practice, however, actions take some time, and incoming events must be placed on a queue. […] actions should not be used as a long transaction mechanism. Their duration should be brief compared to the response time needed for external events. Otherwise, the system might be unable to respond in a timely manner.</em>&nbsp;»</p>
@@ -172,7 +173,7 @@ console.log('Available events:', fsm.availEvents());
         catch : Event(&quot;failure&quot;) → State(&quot;dirty&quot;)</code></pre><blockquote>
 <p><strong>In summary&nbsp;: run any async process in actions state but not in transitions functions nor in machine listeners</strong>.</p>
 </blockquote>
-<p>See also <a href="6_Security___Locking_Transitions">6. Security : Locking Transitions</a> to learn how you can lock the machine so your code can keep the saving process under control. Something like&nbsp;:</p>
+<p>See also <a href="#6_Security___Locking_Transitions">6. Security : Locking Transitions</a> to learn how you can lock the machine so your code can keep the saving process under control. Something like&nbsp;:</p>
 <pre class="prettyprint source"><code>lock(key)
 State(&quot;dirty&quot;) x Event(&quot;save&quot;)
 → State(&quot;saving&quot;) x Actions(Ajax.request)
@@ -188,8 +189,8 @@ State(&quot;dirty&quot;) x Event(&quot;save&quot;)
 <pre class="prettyprint source"><code>  &lt;!DOCTYPE html> 
   &lt;html>
   ...
-      &lt;script src=&quot;build/fsm.min.js&quot;>&lt;/script>
-      &lt;script src=&quot;demo/demo-jfg-2.js&quot;>&lt;/script>
+      &lt;script src=&quot;../build/fsm.min.js&quot;>&lt;/script>
+      &lt;script src=&quot;demo-jfg-2.js&quot;>&lt;/script>
   &lt;/body>
   &lt;/html></code></pre></li>
 <li><p>In NodeJS&nbsp;:</p>
@@ -216,10 +217,10 @@ State(&quot;dirty&quot;) x Event(&quot;save&quot;)
 </ul>
 </li>
 <li><p>Optionally, <a href="#register-listeners">register some listeners</a> (see also <a href="FSM.html#on">FSM#on</a>). We will call the registered listeners <strong>MACHINE LISTENERS</strong>&nbsp;:</p>
-<pre class="prettyprint source"><code> fsm.on(machineEvent, [scope,] listener, options...);
+<pre class="prettyprint source"><code> fsm.on(machineEvent, [scope,] listener, ...options);
  // unregister with: fsm.un(machineEvent, [scope,] listener);</code></pre></li>
 <li><p><a href="#trigger-transition">Trigger an available event to execute a transition</a> (see also <a href="FSM.html#trigger">API docs FSM#trigger</a>)&nbsp;:</p>
-<pre class="prettyprint source"><code> var res = fsm.trigger(triggerEvent, args...);</code></pre></li>
+<pre class="prettyprint source"><code> var res = fsm.trigger(triggerEvent, ...args);</code></pre></li>
 <li><p><a href="#deal-with-result">Deal with results when appropriate</a>&nbsp;:</p>
 <pre class="prettyprint source"><code> if(!res){
      // do something
@@ -227,7 +228,7 @@ State(&quot;dirty&quot;) x Event(&quot;save&quot;)
  }</code></pre></li>
 <li><p><a href="#enjoy">Enjoy the machine</a>&nbsp;:</p>
 <pre class="prettyprint source"><code> updateControls( fsm.availEvents() );
- fsm.actions.currentStateAction1(args...);</code></pre></li>
+ fsm.actions.currentStateAction1(...args);</code></pre></li>
 <li><p><a href="#security">Security : Locking Transitions</a>.</p>
 </li>
 <li><p>Repeat from step 3 (or 2).</p>
@@ -257,8 +258,8 @@ State(&quot;dirty&quot;) x Event(&quot;save&quot;)
 <ul>
 <li><p><em><code>&quot;state&quot;</code></em>: the property name is the identifier of a state (its name). It is any other <code>configs</code> property containing one or more of&nbsp;:</p>
 <ul>
-<li><code>entry</code> : the entry <code>function(eventObj, arg...)</code> or array of.</li>
-<li><code>exit</code> : the exit <code>function(eventObj, arg...)</code> or array of.  </li>
+<li><code>entry</code> : the entry <code>function(eventObj, ...arg)</code> or array of.</li>
+<li><code>exit</code> : the exit <code>function(eventObj, ...arg)</code> or array of.  </li>
 <li><p><code>actions</code> : an object containing the actions for this state. Properties are name of the action and its value is a Function (signatures are up to you)&nbsp;:</p>
 <pre class="prettyprint source"><code>  actions:{
       flip: function(a, b, c, d){...},
@@ -270,12 +271,12 @@ State(&quot;dirty&quot;) x Event(&quot;save&quot;)
 <ul>
 <li><code>from</code> : is the mandatory source state name (String), i.e. the one which will exit on successfully completed transition.</li>
 <li><code>to</code> : is the target state name (String), i.e. the one which will enter and be the new current state on successfully completed transition. Omit this property (<code>undefined</code>) if the transition is an <em>internal transition</em>.</li>
-<li><code>before</code> : <code>function(eventObj, arg...)</code> to be executed before the transition. If one does not return <code>true</code> the transition is cancelled.</li>
-<li><code>after</code> : <code>function(eventObj, arg...)</code> executed at the end of the trigger (even if guard failed or error occurred).</li>
-<li><code>guard</code> : <code>function(eventObj, arg...)</code> if one does not return true, the transition does not occur.</li>
-<li><code>do</code> : <code>function(eventObj, arg...)</code> executed after guard succeed (returns <code>true</code>).</li>
-<li><p><code>dont</code> : <code>function(eventObj, arg...)</code> executed after guard does not return <code>true</code>.</p>
-<p>See <a href="FSM.html#~listener">Machine and Configs Listener</a> for a description of the <code>function(eventObj, arg...)</code> and its arguments.</p>
+<li><code>before</code> : <code>function(eventObj, ...arg)</code> to be executed before the transition. If one does not return <code>true</code> the transition is cancelled.</li>
+<li><code>after</code> : <code>function(eventObj, ...args)</code> executed at the end of the trigger (even if guard failed or error occurred).</li>
+<li><code>guard</code> : <code>function(eventObj, ...args)</code> if one does not return true, the transition does not occur.</li>
+<li><code>do</code> : <code>function(eventObj, ...args)</code> executed after guard succeed (returns <code>true</code>).</li>
+<li><p><code>dont</code> : <code>function(eventObj, ...args)</code> executed after guard does not return <code>true</code>.</p>
+<p>See <a href="FSM.html#~listener">Machine and Configs Listener</a> for a description of the <code>function(eventObj, ...args)</code> and its arguments.</p>
 </li>
 </ul>
 </li>
@@ -293,9 +294,9 @@ State(&quot;dirty&quot;) x Event(&quot;save&quot;)
 <p>The FSM is the <strong>listener</strong> of <em>trigger events</em>.</p>
 </blockquote>
 <p> To tell the machine a trigger event in order to execute a state transition, run one of&nbsp;:</p>
-<pre class="prettyprint source"><code> fsm.trigger(triggerEvent, args...);  // to tell the machine which transition to do
- fsm.t(triggerEvent, args...);        // to tell the machine which transition to do
- fsm.e[triggerEvent](args...);        // to tell the machine which transition to do, e.g. fsm.e.stop(args)</code></pre><p> The set of available trigger events is defined in the <code>configs</code> option on creating a new machine (see <a href="FSM.html">FSM</a>). Each trigger event corresponds to one or more transitions.</p>
+<pre class="prettyprint source"><code> fsm.trigger(triggerEvent, ...args);  // to tell the machine which transition to do
+ fsm.t(triggerEvent, ...args);        // to tell the machine which transition to do
+ fsm.e[triggerEvent](...args);        // to tell the machine which transition to do, e.g. fsm.e.stop(args)</code></pre><p> The set of available trigger events is defined in the <code>configs</code> option on creating a new machine (see <a href="FSM.html">FSM</a>). Each trigger event corresponds to one or more transitions.</p>
 </li>
 <li><p><strong>Machine Events</strong>.</p>
 <blockquote>
@@ -305,7 +306,7 @@ State(&quot;dirty&quot;) x Event(&quot;save&quot;)
 </li>
 </ol>
 <h3><a href="FSM.html#on">FSM#on</a></h3><p>To register a listener for Machine Events. Arguments are&nbsp;:</p>
-<pre class="prettyprint source"><code>fsm.on(eventPattern, [scope,] listener, options...){/*...*/}  // to listen to the machine own events</code></pre><ul>
+<pre class="prettyprint source"><code>fsm.on(eventPattern, [scope,] listener, ...options){/*...*/}  // to listen to the machine own events</code></pre><ul>
 <li><p><code>eventPattern</code> : which is either a <code>string</code> equals to the <a href="#mei">Machine Event Identifiers</a>, or a <code>RegExp</code> to test with the Machine Event Identifier.</p>
 <blockquote>
 <p>   <strong>IMPORTANT</strong> : the same machine listener function can be called many times during the same transition if the RegExp matches many machine event identifiers!<br>   For instance to register a tracer listener to be called at each step of a transition, do&nbsp;:  </p>
@@ -334,7 +335,7 @@ State(&quot;dirty&quot;) x Event(&quot;save&quot;)
 <p><strong>! To know about the Machine Events Identifiers is only useful to register a listener because the machine event identifier should match the <code>eventPattern</code> arguments of <code>FSM#on</code> for the listener to be called.</strong></p>
 </blockquote>
 <h5>Example &nbsp;:</h5><p>Given a transition defined as&nbsp;:</p>
-<pre class="prettyprint source"><code>// panic(arguments) [guard] / do:function(event, arg...);dont:function(event, arg...)
+<pre class="prettyprint source"><code>// panic(arguments) [guard] / do:function(event, ...args);dont:function(event, ...args)
 
 panic : [{
     from  : 'green',
@@ -355,10 +356,10 @@ panic : [{
 <pre class="prettyprint source"><code>fsm.on(/^before-.*-red$/, cb);</code></pre><p>will be invoked before any transition occured (whatever the trigger event and source state) but only for target state <code>red</code>.</p>
 <pre class="prettyprint source"><code>fsm.on(/-red$/, cb);</code></pre><p>will be invoked for any transition which target state is <code>red</code> and for <code>entry-red</code> and <code>exit-red</code> machine events.</p>
 <h2>Machine Listeners and Configs Listeners</h2><p>Your machine listeners and the configs listeners signatures are the same&nbsp;:</p>
-<pre class="prettyprint source"><code>    function listener(eventObj, args...)</code></pre><p>where </p>
+<pre class="prettyprint source"><code>    function listener(eventObj, ...args)</code></pre><p>where </p>
 <ul>
-<li><p><code>args...</code>
-are the arguments as passed by the <code>fsm.trigger(triggerEvent, args...)</code>.</p>
+<li><p><code>...args</code>
+are the arguments as passed by the <code>fsm.trigger(triggerEvent, ...args)</code>.</p>
 </li>
 <li><p><code>eventObj</code>
 is a hash which properties set depends on the transition step, i.e. for&nbsp;:</p>
@@ -390,7 +391,7 @@ is a hash which properties set depends on the transition step, i.e. for&nbsp;:</
 <li><p><strong><code>options</code></strong> is an Array containing arguments as given&nbsp;:</p>
 <ul>
 <li>either for <strong>config listeners</strong> in the configs transition object (<code>options</code> are defined in the corresponding transition configuration but not in state configuration),</li>
-<li>or for <strong>machine listeners</strong> on registering them with <code>fsm.on(eventPattern, [scope,] listener, options...)</code>.</li>
+<li>or for <strong>machine listeners</strong> on registering them with <code>fsm.on(eventPattern, [scope,] listener, ...options)</code>.</li>
 </ul>
 </li>
 </ul>
@@ -430,12 +431,12 @@ e.start(params); // &quot;start&quot; is a trigger event name</code></pre><p>You
   entry</code></pre></li>
 </ul>
 <p>So, each of these properties can be either <code>undefined</code>, a <code>function</code> or an <code>array</code> of functions. Every function shares the same signature as Machine Listeners, i.e.&nbsp;:</p>
-<pre class="prettyprint source"><code>function(eventObj, args...);    </code></pre><p><span id="transition-path"></span></p>
+<pre class="prettyprint source"><code>function(eventObj, ...args);    </code></pre><p><span id="transition-path"></span></p>
 <h2>Paths of a Transition</h2><blockquote>
 <p>A <strong>trigger event</strong> (A) initiates a state transition which walks along a definite path (B) of the transition. The path is made of a set of <strong>transition steps</strong> (C). The next step is selected on the result returned by the current step evaluation (D) (i.e. <em>step listeners queue execution</em>).</p>
 </blockquote>
 <p>(A) An event is triggered by&nbsp;:</p>
-<pre class="prettyprint source"><code>fsm.trigger(triggerEvent, args...)</code></pre><p>(B) Then, the machine starts the <strong>transition sequence</strong> (before → ... → after).</p>
+<pre class="prettyprint source"><code>fsm.trigger(triggerEvent, ...args)</code></pre><p>(B) Then, the machine starts the <strong>transition sequence</strong> (before → ... → after).</p>
 <blockquote>
 <p>In our machine there are actually 5 alternate paths (sequences of steps) for a transition (see also next figure)&nbsp;:</p>
 <p>(1) <strong>before → after</strong>&nbsp;:</p>
@@ -503,7 +504,7 @@ e.start(params); // &quot;start&quot; is a trigger event name</code></pre><p>You
 fsm.do.alert(&quot;hello from state &quot;+ fsm.current()); // the alert action</code></pre><p>Only actions defined in the current state will be callable. Signatures of actions are yours and you define them in any state <code>configs</code> of the machine.</p>
 <h2>Machine Utilities</h2><h4>Checking available Transitions</h4><p>To return a list of available events in the current state&nbsp;:</p>
 <pre class="prettyprint source"><code>    fsm.availEvents()</code></pre><p>To test if some transitions are allowed, run&nbsp;:</p>
-<pre class="prettyprint source"><code>fsm.can(event [, testGuard [, param...]]) // return true|false</code></pre><p>where&nbsp;:</p>
+<pre class="prettyprint source"><code>fsm.can(event [, testGuard [, ...params]]) // return true|false</code></pre><p>where&nbsp;:</p>
 <ul>
 <li><code>event</code> : is an event name to test availability for the current state.</li>
 <li><code>testGuard</code> : if <code>true</code> then return available events for transitions which succeed on guard tests.</li>
@@ -544,8 +545,8 @@ fsm.do.alert(&quot;hello from state &quot;+ fsm.current()); // the alert action<
 fsm.trigger(&quot;reboot&quot;);</code></pre><p>Or more simply (and maybe to make sure that no other thread can trigger an event between you <code>unlock</code> and <code>trigger</code> calls)&nbsp;:</p>
 <pre class="prettyprint source"><code>    fsm.trigger(&quot;reboot&quot;, lockKey);</code></pre><p><strong>Notes :</strong></p>
 <ul>
-<li>You can use <code>fsm.t(event, lockKey, args...)</code> or <code>fsm.e.&lt;event&gt;(lockKey, args...)</code> alias style.</li>
-<li>After a call to <code>fsm.trigger(event, lockKey)</code> the fsm is kept locked.</li>
+<li>You can use <code>fsm.t(event, lockKey, ...args)</code> or <code>fsm.e.&lt;event&gt;(lockKey, ...args)</code> alias style.</li>
+<li>After a call to <code>fsm.trigger(event, lockKey, ...args)</code> the fsm is kept locked.</li>
 </ul>
 <p>Also, you can use your own <code>lockKey</code> to be shared by any objects of your code&nbsp;:</p>
 <pre class="prettyprint source"><code>var lockKey = fsm.lock(yourLockKey);</code></pre><p>If <code>yourLockKey</code> is evaluated as <code>falsy</code> then a new key is returned, otherwise after the call <code>lockKey === yourLockKey</code>.</p>
@@ -564,7 +565,7 @@ fsm.trigger('start', lockKey, new Date(), anOtherParam);</code></pre><hr class="
 </ul>
 <p>Please, request other features you are willing to get on next version.</p>
 <hr>
-<p>© <a href="http://imed.ch">imed.ch</a> - Last modified Thu Jun 20 15:44:12 CEST 2019</p></article>
+<p>© <a href="http://imed.ch">imed.ch</a> - Last modified Thu Jun 20 17:03:06 CEST 2019</p></article>
     </section>
 
 
@@ -577,7 +578,7 @@ fsm.trigger('start', lockKey, new Date(), anOtherParam);</code></pre><hr class="
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Jun 20 2019 15:59:30 GMT+0200 (CEST) using the Minami theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Jun 20 2019 17:03:23 GMT+0200 (CEST) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>
