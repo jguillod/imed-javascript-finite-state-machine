@@ -18,18 +18,20 @@
 		"jsdoc": "^3",
 		"minami": "^1.2.3",
 		"mocha": "*",
-		"uglifyjs": "^2.4.11"
+		"uglify-js": "^3.6.0"
 	},
 	"scripts": {
-		"postinstall": "npm run build",
+		"preversion": "npm test",
+		"version": "npm run build",
 		"minify-debug": "uglifyjs src/fsm.js --mangle --define DEBUG=true --comments --compress -o build/fsm-debug.min.js",
 		"minify": "uglifyjs src/fsm.js --mangle --define DEBUG=false --comments --compress -o build/fsm.min.js && npm run minify-debug",
-		"build": "mkdir -p build && npm run minify && npm test && npm run generate-docs && echo 'Installation complete. \nIn your web page use `build/fsm.min.js`. \nSee docs with \n  npm run show-docs'",
+		"build": "mkdir -p build && npm test && npm run generate-docs && echo 'Installation complete. \nIn your web page use `build/fsm.min.js`. \nSee docs with \n  npm run show-docs'",
 		"docs": "npm run generate-docs && npm run show-docs",
 		"generate-docs": "jsdoc --configure jsdoc.json --verbose",
 		"show-docs": "node docs/index",
-		"test": "mocha --timeout 3000"
+		"test": "npm run minify && mocha --timeout 3000"
 	},
 	"version": "1.0.6",
-	"license": "MIT"
+	"license": "MIT",
+	"dependencies": {}
 }

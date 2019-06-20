@@ -4,7 +4,6 @@ var FSM = require('./build/fsm.min.js'), fsm = new FSM(require('./test/fixtures/
 fsm.current()+': '+ fsm.reason + ' | ' + m.current() + ': '+m.reason +' | '+ o.current()+': '+o.reason
 */
 
-DEBUG = true;
 
 /**
  * @license
@@ -225,7 +224,9 @@ fsm.on(/.+/, function(event, args){console.log('ANY event (*)', event, 'args=', 
 		}, meta);
 
 		if (DEBUG) {
-			this.debug = _.debug;
+			this.debug = !!_.debug;
+		} else {
+			this.debug = false;
 		}
 		_.justListen = _.justListen !== false; // default is true
 
@@ -317,7 +318,7 @@ fsm.on(/.+/, function(event, args){console.log('ANY event (*)', event, 'args=', 
 	}; // <-- end create
 
 	Object.defineProperty(create.prototype, 'actions', {
-		get() {
+		get: function() {
 			return this._actions;
 		}
 	}); // expose the actions handlers for the entered state
@@ -1016,7 +1017,7 @@ fsm.on(/.+/, function(event, args){console.log('ANY event (*)', event, 'args=', 
 				me.loggroup('❓ in configs (' + (fns ? fns.length : 0) + ' functions)');
 			}
 			//</debug>
-			eventObj.step = prefix
+			eventObj.step = prefix;
 			var eventObject = {},
 				res, allArgs;
 			if (options) eventObject.options = options;
@@ -1177,7 +1178,7 @@ fsm.on(/.+/, function(event, args){console.log('ANY event (*)', event, 'args=', 
 			//</debug>
 		}
 		return result;
-	};
+	}
 
 	/**
 	 * Alias for {@link FSM#trigger}.

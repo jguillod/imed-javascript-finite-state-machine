@@ -1,12 +1,13 @@
 {
+    "recurseDepth": 10,
     "tags": {
         "allowUnknownTags": true,
-        "dictionaries": ["jsdoc"]
+        "dictionaries": ["jsdoc","closure"]
     },
     "source": {
         "include": [".", "src/", "package.json", "README.md", "test/"],
-        "includePattern": ".js$",
-        "excludePattern": "(node_modules/|docs|out|DEPRECATED)"
+        "includePattern": ".+\\.js$",
+        "excludePattern": "(@imed.ch/javascript-finite-state-machine/node_modules|docs|out|DEPRECATED)"
     },
     "plugins": [
         "plugins/markdown"

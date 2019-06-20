@@ -1,7 +1,7 @@
 var should = this.hasOwnProperty('chai') ? chai.should() : require('chai').should(); //actually call the function
 var expect = this.hasOwnProperty('chai') ? chai.expect : require('chai').expect; //actually call the function
 var data = require('./fixtures/data.js');
-var FSM = require("../src/fsm.js");
+var FSM = require("../build/fsm-debug.min.js");
 // var FSM = require("../build/fsm.min.js");
 
 
@@ -452,7 +452,9 @@ describe('FSM', function() {
 		
 		it('should have their own independent `debug` values', function(){
 			fsm.debug = true;
+			console.log('fsm.debug', fsm.debug);
 			machine.debug = false;
+			console.log('machine.debug', machine.debug);
 			var d = fsm.debug;
 			d.should.be.true; 
 			machine.debug.should.be.false;
