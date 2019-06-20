@@ -4,7 +4,7 @@
         "dictionaries": ["jsdoc"]
     },
     "source": {
-        "include": ["src", "package.json", "README.md"],
+        "include": [".", "src/", "package.json", "README.md", "test/"],
         "includePattern": ".js$",
         "excludePattern": "(node_modules/|docs|out|DEPRECATED)"
     },
@@ -14,8 +14,9 @@
     "templates": {
         "cleverLinks": false,
         "monospaceLinks": true,
+		"useLongnameInNav": false,
+		"showInheritedInNav": true,
 	    "default": {
-			"layoutFile": "./docs/assets/tmpl/layout.tmpl",
 			"staticFiles": {
 				"include": [
 					"./docs/assets"
@@ -30,7 +31,7 @@
         "destination": "./docs/",
         "encoding": "utf8",
         "private": false,
-        "recurse": true,
+        "recurse": false,
         "template": "./node_modules/minami"
     }
 }
