@@ -1,6 +1,9 @@
 # FSM #
 
-[![Join the chat at https://gitter.im/imed-javascript-finite-state-machine/community](https://badges.gitter.im/imed-javascript-finite-state-machine/community.svg)](https://gitter.im/imed-javascript-finite-state-machine/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/imed-javascript-finite-state-machine/community][gitter-image]][gitter-url]
+[![NPM Version][npm-image]][npm-url]
+[![NPM][license-image]](LICENSE)
+[![Linux Build][travis-image]][travis-url]
 
 On [https://github.com/jguillod/imed-javascript-finite-state-machine](https://github.com/jguillod/imed-javascript-finite-state-machine).
 
@@ -774,6 +777,7 @@ To secure a FSM just at instanciation, write&nbsp;:
 ---
 We expect version 2 with the following features&nbsp;:
 
+- Rework of examples.
 - Rewrite with ES6 ?
 - Maybe add a queuing feature of incoming events? If an event is triggered during a transition, it will be put in a queue of events to be executed at the completion of the last running transition.
 
@@ -783,4 +787,10 @@ Please, request other features you are willing to get on next version.
 © [imed.ch](http://imed.ch) - Last modified Thu Jun 20 17:03:06 CEST 2019
 
 
-
+[gitter-image]: https://badges.gitter.im/imed-javascript-finite-state-machine/community.svg
+[gitter-url]: https://gitter.im/imed-javascript-finite-state-machine/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
+[npm-image]: https://img.shields.io/npm/v/@imed.ch/javascript-finite-state-machine.svg
+[npm-url]: https://npmjs.org/package/@imed.ch/javascript-finite-state-machine
+[license-image]: https://img.shields.io/npm/l/@imed.ch/javascript-finite-state-machine.svg
+[travis-image]: https://img.shields.io/travis/live-js/@imed.ch/javascript-finite-state-machine/master.svg
+[travis-url]: https://travis-ci.org/live-js/@imed.ch/javascript-finite-state-machine
