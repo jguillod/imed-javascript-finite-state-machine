@@ -1,9 +1,10 @@
-# FSM #
-
 [![Join the chat at https://gitter.im/imed-javascript-finite-state-machine/community][gitter-image]][gitter-url]
 [![NPM Version][npm-image]][npm-url]
 [![NPM][license-image]](LICENSE)
 [![Build Status][travis-image]][travis-url]
+[![Coverage Status](https://coveralls.io/repos/github/jguillod/imed-javascript-finite-state-machine/badge.svg?branch=master)](https://coveralls.io/github/jguillod/imed-javascript-finite-state-machine?branch=master)
+
+# FSM #
 
 On [https://github.com/jguillod/imed-javascript-finite-state-machine](https://github.com/jguillod/imed-javascript-finite-state-machine).
 
@@ -792,5 +793,6 @@ Please, request other features you are willing to get on next version.
 [npm-image]: https://img.shields.io/npm/v/@imed.ch/javascript-finite-state-machine.svg
 [npm-url]: https://npmjs.org/package/@imed.ch/javascript-finite-state-machine
 [license-image]: https://img.shields.io/github/license/jguillod/imed-javascript-finite-state-machine.svg
-[travis-image]: https://travis-ci.com/jguillod/imed-javascript-finite-state-machine.svg?branch=master
+[travis-image]: https://travis-ci.org/jguillod/imed-javascript-finite-state-machine.svg?branch=master
+
 [travis-url]: https://travis-ci.com/jguillod/imed-javascript-finite-state-machine
