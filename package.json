@@ -34,7 +34,7 @@
 		"coverage": "nyc report --reporter=text-lcov | coveralls",
 		"test": "nyc mocha --timeout 3000"
 	},
-	"version": "1.0.8",
+	"version": "1.0.9",
 	"license": "MIT",
 	"dependencies": {}
 }
