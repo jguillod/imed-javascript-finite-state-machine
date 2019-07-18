@@ -1,3 +1,5 @@
+// var DEBUG = DEBUG || true;
+//-----------------------------------------------------------------------------------------------
 /*
 var FSM = require('./build/fsm.min.js'), fsm = new FSM(require('./test/fixtures/data.js'), function(){console.log('fsm ready')}), m = fsm.factory('saved', function(m){console.log('m ready', this === m)}), o = fsm.factory('saved', function(m){console.log('o ready')});
 

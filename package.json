@@ -15,9 +15,11 @@
 	"main": "build/fsm.min.js",
 	"devDependencies": {
 		"chai": "*",
+		"coveralls": "3.0.5",
 		"jsdoc": "^3",
 		"minami": "^1.2.3",
 		"mocha": "*",
+		"nyc": "14.1.1",
 		"uglify-js": "^3.6.0"
 	},
 	"scripts": {
@@ -29,7 +31,8 @@
 		"docs": "npm run generate-docs && npm run show-docs",
 		"generate-docs": "jsdoc --configure jsdoc.json --verbose",
 		"show-docs": "node docs/index",
-		"test": "npm run minify && mocha --timeout 3000"
+		"coverage": "nyc report --reporter=text-lcov | coveralls",
+		"test": "nyc mocha --timeout 3000"
 	},
 	"version": "1.0.8",
 	"license": "MIT",
