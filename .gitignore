@@ -1,7 +1,9 @@
+# eliiot
 sample-1.svg
 saving.html
 package-lock.json
-
+docs/
+!docs/index.js
 
 
 
