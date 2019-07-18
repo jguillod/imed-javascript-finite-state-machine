@@ -191,7 +191,7 @@ So, an action in the "saving" state can run the async request and lock any trans
 
 > **In summary&nbsp;: run any async process in actions state but not in transitions functions nor in machine listeners**.
 
-See also [6. Security : Locking Transitions](#6_Security___Locking_Transitions) to learn how you can lock the machine so your code can keep the saving process under control. Something like&nbsp;:
+See also [6. Security : Locking Transitions](#6-security--locking-transitions) to learn how you can lock the machine so your code can keep the saving process under control. Something like&nbsp;:
 
 	lock(key)
 	State("dirty") x Event("save")
