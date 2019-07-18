@@ -1,5 +1,7 @@
 # FSM #
 
+[![Join the chat at https://gitter.im/imed-javascript-finite-state-machine/community](https://badges.gitter.im/imed-javascript-finite-state-machine/community.svg)](https://gitter.im/imed-javascript-finite-state-machine/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 On [https://github.com/jguillod/imed-javascript-finite-state-machine](https://github.com/jguillod/imed-javascript-finite-state-machine).
 
 ### Getting started ###
