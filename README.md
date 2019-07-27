@@ -1,8 +1,10 @@
-[![Join the chat at https://gitter.im/imed-javascript-finite-state-machine/community][gitter-image]][gitter-url]
-[![NPM Version][npm-image]][npm-url]
-[![NPM][license-image]](LICENSE)
-[![Build Status][travis-image]][travis-url]
+[![Join the chat at https://gitter.im/imed-javascript-finite-state-machine/community](https://badges.gitter.im/imed-javascript-finite-state-machine/community.svg)](https://gitter.im/imed-javascript-finite-state-machine/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![NPM Version](https://img.shields.io/npm/v/@imed.ch/javascript-finite-state-machine.svg)](https://npmjs.org/package/@imed.ch/javascript-finite-state-machine)
+[![Dependency Status](https://david-dm.org/jguillod/imed-javascript-finite-state-machine.svg?style=flat)](https://david-dm.org/jguillod/imed-javascript-finite-state-machine)
+[![devDependency Status](https://img.shields.io/david/dev/jguillod/imed-javascript-finite-state-machine.svg?style=flat)](https://david-dm.org/jguillod/imed-javascript-finite-state-machine#info=devDependencies)
+[![Build Status](https://travis-ci.org/jguillod/imed-javascript-finite-state-machine.svg?branch=master)](https://travis-ci.com/jguillod/imed-javascript-finite-state-machine)
 [![Coverage Status](https://coveralls.io/repos/github/jguillod/imed-javascript-finite-state-machine/badge.svg?branch=master)](https://coveralls.io/github/jguillod/imed-javascript-finite-state-machine?branch=master)
+[![NPM](https://img.shields.io/github/license/jguillod/imed-javascript-finite-state-machine.svg)](LICENSE)
 
 # FSM #
 
@@ -788,11 +790,3 @@ Please, request other features you are willing to get on next version.
 © [imed.ch](http://imed.ch) - Last modified Thu Jun 20 17:03:06 CEST 2019
 
 
-[gitter-image]: https://badges.gitter.im/imed-javascript-finite-state-machine/community.svg
-[gitter-url]: https://gitter.im/imed-javascript-finite-state-machine/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
-[npm-image]: https://img.shields.io/npm/v/@imed.ch/javascript-finite-state-machine.svg
-[npm-url]: https://npmjs.org/package/@imed.ch/javascript-finite-state-machine
-[license-image]: https://img.shields.io/github/license/jguillod/imed-javascript-finite-state-machine.svg
-[travis-image]: https://travis-ci.org/jguillod/imed-javascript-finite-state-machine.svg?branch=master
-
-[travis-url]: https://travis-ci.com/jguillod/imed-javascript-finite-state-machine
