@@ -17,7 +17,7 @@
         "monospaceLinks": true,
 		"useLongnameInNav": false,
 		"showInheritedInNav": true,
-	    "default": {
+	    "XXX_default": {
 			"staticFiles": {
 				"include": [
 					"./docs/assets"
