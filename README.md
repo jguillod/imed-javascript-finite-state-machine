@@ -787,6 +787,13 @@ We expect version 2 with the following features&nbsp;:
 Please, request other features you are willing to get on next version.
 
 ---
-© [imed.ch](http://imed.ch) - Last modified Thu Jun 20 17:03:06 CEST 2019
+## About me ##
+
+Please, feel free to visit our personal website [imed.ch](http://imed.ch) and have a look to IoT projects for HealthCare we are involved in with [eliiot technology](http://eliiot-technology.ch).
+
+If you use this module, please consider to buy me some cups of coffee on&nbsp;:
+
+[![click me](https://ko-fi.com/img/Kofi_Logo_Blue.svg)](https://ko-fi.com/elojes)
 
 
+© [imed.ch](http://imed.ch) - Last modified Tue Aug 13 13:22:25 CEST 2019
